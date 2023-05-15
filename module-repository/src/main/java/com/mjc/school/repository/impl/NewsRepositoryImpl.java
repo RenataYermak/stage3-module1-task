@@ -1,5 +1,6 @@
-package com.mjc.school.repository.repository;
+package com.mjc.school.repository.impl;
 
+import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.datasource.DataSource;
 import com.mjc.school.repository.model.News;
 

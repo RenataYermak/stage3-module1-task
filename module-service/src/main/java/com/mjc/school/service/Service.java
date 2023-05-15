@@ -1,4 +1,4 @@
-package com.mjc.school.service.service;
+package com.mjc.school.service;
 
 import java.util.List;
 

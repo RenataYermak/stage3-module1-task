@@ -1,4 +1,4 @@
-package com.mjc.school.service.service;
+package com.mjc.school.service.impl;
 
 import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.service.dto.NewsResponseDto;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NewsServiceTest {
     
-    private final NewsService service = new NewsService();
+    private final NewsServiceImpl service = new NewsServiceImpl();
     
     @Test
     void create() {

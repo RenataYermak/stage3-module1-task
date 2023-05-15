@@ -3,14 +3,14 @@ package com.mjc.school.controller.impl;
 import com.mjc.school.controller.Controller;
 import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.service.dto.NewsResponseDto;
-import com.mjc.school.service.service.NewsService;
+import com.mjc.school.service.impl.NewsServiceImpl;
 
 import java.util.List;
 
 public class NewsControllerImpl implements Controller<NewsResponseDto, NewsRequestDto, Long> {
-    private final NewsService newsService;
+    private final NewsServiceImpl newsService;
 
-    public NewsControllerImpl(NewsService newsService) {
+    public NewsControllerImpl(NewsServiceImpl newsService) {
         this.newsService = newsService;
     }
 

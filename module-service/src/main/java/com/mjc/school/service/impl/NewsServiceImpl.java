@@ -1,10 +1,11 @@
-package com.mjc.school.service.service;
+package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.model.Author;
 import com.mjc.school.repository.model.News;
-import com.mjc.school.repository.repository.AuthorRepositoryImpl;
-import com.mjc.school.repository.repository.NewsRepositoryImpl;
-import com.mjc.school.repository.repository.Repository;
+import com.mjc.school.repository.impl.AuthorRepositoryImpl;
+import com.mjc.school.repository.impl.NewsRepositoryImpl;
+import com.mjc.school.repository.Repository;
+import com.mjc.school.service.Service;
 import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.service.dto.NewsResponseDto;
 import com.mjc.school.service.exception.InternalServerErrorException;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class NewsService implements Service<NewsResponseDto, NewsRequestDto, Long> {
+public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto, Long> {
 
     private final Repository<News, Long> newsRepository;
     private final Repository<Author, Long> authorRepository;

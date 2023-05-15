@@ -1,4 +1,4 @@
-package com.mjc.school.repository.repository;
+package com.mjc.school.repository;
 
 import java.util.List;
 
