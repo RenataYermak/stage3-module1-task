@@ -1,7 +1,7 @@
-package com.mjc.school.repository.datasource;
+package com.mjc.school.repository;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.util.FileUtils;
 import lombok.Getter;
 
@@ -19,9 +19,9 @@ public class DataSource {
     private final static int newsAmount = 20;
     private final static int authorsAmount = 20;
     @Getter
-    private final List<News> newsStorage = new ArrayList<>();
+    private final List<NewsModel> newsStorage = new ArrayList<>();
     @Getter
-    private final List<Author> authorStorage = new ArrayList<>();
+    private final List<AuthorModel> authorStorage = new ArrayList<>();
 
     private DataSource() throws IOException {
         FileUtils fileUtils = new FileUtils();
@@ -47,7 +47,7 @@ public class DataSource {
 
     private void fillAuthors(List<String> authors) {
         for (int i = 0; i < authorsAmount; i++) {
-            authorStorage.add(new Author(i, authors.get(i)));
+            authorStorage.add(new AuthorModel(i, authors.get(i)));
         }
     }
 
@@ -61,7 +61,7 @@ public class DataSource {
             LocalDateTime created = now.minusDays(30 + random.nextInt(30));
             LocalDateTime updated = now.minusDays(random.nextInt(30));
 
-            News news = new News(i, title, content, created, updated, i);
+            NewsModel news = new NewsModel(i, title, content, created, updated, i);
             newsStorage.add(news);
         }
     }

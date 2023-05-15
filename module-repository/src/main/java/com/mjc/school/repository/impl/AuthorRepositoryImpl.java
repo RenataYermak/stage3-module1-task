@@ -1,17 +1,16 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.Repository;
-import com.mjc.school.repository.datasource.DataSource;
-import com.mjc.school.repository.model.Author;
+import com.mjc.school.repository.DataSource;
+import com.mjc.school.repository.model.AuthorModel;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
-public class AuthorRepositoryImpl implements Repository<Author, Long> {
+public class AuthorRepositoryImpl implements Repository<AuthorModel, Long> {
 
-    private final List<Author> authors;
+    private final List<AuthorModel> authors;
 
     public AuthorRepositoryImpl() throws IOException {
         DataSource dataSource = DataSource.getInstance();
@@ -19,18 +18,18 @@ public class AuthorRepositoryImpl implements Repository<Author, Long> {
     }
 
     @Override
-    public Author create(Author author) {
+    public AuthorModel create(AuthorModel author) {
         authors.add(author);
         return author;
     }
 
     @Override
-    public List<Author> findAll() {
-        return (List<Author>) Collections.unmodifiableCollection(authors);
+    public List<AuthorModel> readAll() {
+        return (List<AuthorModel>) Collections.unmodifiableCollection(authors);
     }
 
     @Override
-    public Author findById(Long id) {
+    public AuthorModel readById(Long id) {
         return authors.stream()
                 .filter(author -> author.getId() == id)
                 .findFirst()
@@ -38,22 +37,20 @@ public class AuthorRepositoryImpl implements Repository<Author, Long> {
     }
 
     @Override
-    public Author update(Long id, Author entity) {
-        Author author = findById(id);
+    public AuthorModel update(Long id, AuthorModel entity) {
+        AuthorModel author = readById(id);
         author.setName(entity.getName());
         return author;
     }
 
     @Override
-    public void delete(Long id) {
-        if (!authors.removeIf(author -> author.getId() == id)) {
-            throw new NoSuchElementException("Not found value ");
-        }
+    public boolean delete(Long id) {
+        return authors.removeIf(author -> author.getId() == id);
     }
 
     @Override
     public boolean isExist(Long id) {
-        for (Author author : authors) {
+        for (AuthorModel author : authors) {
             if (author.getId() == id)
                 return true;
         }

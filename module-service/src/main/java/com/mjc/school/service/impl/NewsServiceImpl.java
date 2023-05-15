@@ -1,7 +1,7 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.model.Author;
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.repository.impl.AuthorRepositoryImpl;
 import com.mjc.school.repository.impl.NewsRepositoryImpl;
 import com.mjc.school.repository.Repository;
@@ -21,8 +21,8 @@ import java.util.NoSuchElementException;
 
 public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto, Long> {
 
-    private final Repository<News, Long> newsRepository;
-    private final Repository<Author, Long> authorRepository;
+    private final Repository<NewsModel, Long> newsRepository;
+    private final Repository<AuthorModel, Long> authorRepository;
     private final Validator<NewsRequestDto> newsValidator;
     private final NewsMapper mapper = NewsMapper.INSTANCE;
 
@@ -41,19 +41,19 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
     public NewsResponseDto create(NewsRequestDto newsRequestDto) {
         validate(newsRequestDto);
 
-        News news = mapper.mapRequestToNews(newsRequestDto);
-        News savedNews = newsRepository.create(news);
+        NewsModel news = mapper.mapRequestToNews(newsRequestDto);
+        NewsModel savedNews = newsRepository.create(news);
         return mapper.mapNewsToResponse(savedNews);
     }
 
     @Override
     public List<NewsResponseDto> findAll() {
-        return mapper.mapNewsToResponseDtoList(newsRepository.findAll());
+        return mapper.mapNewsToResponseDtoList(newsRepository.readAll());
     }
 
     @Override
     public NewsResponseDto findById(Long id) {
-        News news = getNewsById(id);
+        NewsModel news = getNewsById(id);
         return mapper.mapNewsToResponse(news);
     }
 
@@ -61,12 +61,12 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
     public NewsResponseDto update(Long id, NewsRequestDto newsRequestDto) {
         validate(newsRequestDto);
 
-        News news = getNewsById(id);
+        NewsModel news = getNewsById(id);
         news.setTitle(newsRequestDto.getTitle());
         news.setContent(newsRequestDto.getContent());
         news.setAuthorId(newsRequestDto.getAuthorId());
 
-        News savedNews = newsRepository.update(id, news);
+        NewsModel savedNews = newsRepository.update(id, news);
         return mapper.mapNewsToResponse(savedNews);
     }
 
@@ -85,10 +85,10 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
          newsValidator.validate(newsRequestDto);
     }
 
-    private News getNewsById(Long id) {
-        News news;
+    private NewsModel getNewsById(Long id) {
+        NewsModel news;
         try {
-            news = newsRepository.findById(id);
+            news = newsRepository.readById(id);
         } catch (NoSuchElementException e) {
             throw new NotFoundException(String.format("News with ID %d not found.", id));
         }

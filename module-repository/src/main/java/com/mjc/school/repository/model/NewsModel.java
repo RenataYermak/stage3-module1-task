@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class News {
+public class NewsModel {
 
     private final long id;
     private String title;

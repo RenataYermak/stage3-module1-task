@@ -1,6 +1,6 @@
 package com.mjc.school.service.mapping;
 
-import com.mjc.school.repository.model.News;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.service.dto.NewsResponseDto;
 import org.mapstruct.Mapper;
@@ -17,10 +17,10 @@ public interface NewsMapper {
     @Mapping(target = "id", expression = "java(new java.util.Random().nextLong())")
     @Mapping(target = "createDate", expression = "java(LocalDateTime.now())", dateFormat = "yyyy-MM-dd'T'HH:mm'Z'")
     @Mapping(target = "lastUpdateDate", expression = "java(LocalDateTime.now())", dateFormat = "yyyy-MM-dd'T'HH:mm'Z'")
-    News mapRequestToNews(NewsRequestDto dto);
+    NewsModel mapRequestToNews(NewsRequestDto dto);
 
-    NewsResponseDto mapNewsToResponse(News news);
+    NewsResponseDto mapNewsToResponse(NewsModel news);
 
-    List<NewsResponseDto> mapNewsToResponseDtoList(Collection<News> newsCollection);
+    List<NewsResponseDto> mapNewsToResponseDtoList(Collection<NewsModel> newsCollection);
 }
 

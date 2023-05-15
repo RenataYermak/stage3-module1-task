@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Author {
+public class AuthorModel {
 
     private final long id;
     private String name;
