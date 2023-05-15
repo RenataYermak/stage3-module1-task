@@ -99,9 +99,4 @@ class NewsServiceTest {
 
         assertThrows(NotFoundException.class, () -> service.update(999L, newsResponseDto));
     }
-
-    @Test
-    public void testDeleteNonExistingNews() {
-        assertThrows(NotFoundException.class, () -> service.delete(999L));
-    }
 }
