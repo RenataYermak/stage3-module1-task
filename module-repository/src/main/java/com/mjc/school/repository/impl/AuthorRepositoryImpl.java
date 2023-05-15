@@ -1,7 +1,7 @@
 package com.mjc.school.repository.impl;
 
-import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.DataSource;
+import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.model.AuthorModel;
 
 import java.io.IOException;
@@ -11,9 +11,10 @@ import java.util.List;
 public class AuthorRepositoryImpl implements Repository<AuthorModel, Long> {
 
     private final List<AuthorModel> authors;
+    private final DataSource dataSource;
 
     public AuthorRepositoryImpl() throws IOException {
-        DataSource dataSource = DataSource.getInstance();
+        dataSource = DataSource.getInstance();
         authors = dataSource.getAuthorStorage();
     }
 
@@ -37,19 +38,19 @@ public class AuthorRepositoryImpl implements Repository<AuthorModel, Long> {
     }
 
     @Override
-    public AuthorModel update(Long id, AuthorModel entity) {
-        AuthorModel author = readById(id);
+    public AuthorModel update( AuthorModel entity) {
+        AuthorModel author = readById(entity.getId());
         author.setName(entity.getName());
         return author;
     }
 
     @Override
-    public boolean delete(Long id) {
+    public Boolean deleteById(Long id) {
         return authors.removeIf(author -> author.getId() == id);
     }
 
     @Override
-    public boolean isExist(Long id) {
+    public Boolean isExist(Long id) {
         for (AuthorModel author : authors) {
             if (author.getId() == id)
                 return true;

@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class NewsResponseDto {
 
-    private final long id;
+    private final Long id;
     private final String title;
     private final String content;
     private final LocalDateTime createDate;
     private final LocalDateTime lastUpdateDate;
-    private final long authorId;
+    private final Long authorId;
 
     @Override
     public String toString() {

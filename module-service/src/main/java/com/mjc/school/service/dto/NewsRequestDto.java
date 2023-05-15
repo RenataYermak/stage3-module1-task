@@ -10,7 +10,8 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class NewsRequestDto {
 
+    private final Long id;
     private final String title;
     private final String content;
-    private final long authorId;
+    private final Long authorId;
 }

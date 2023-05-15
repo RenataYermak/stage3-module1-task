@@ -1,7 +1,7 @@
 package com.mjc.school.repository.impl;
 
-import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.DataSource;
+import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.model.NewsModel;
 
 import java.io.IOException;
@@ -11,9 +11,10 @@ import java.util.List;
 public class NewsRepositoryImpl implements Repository<NewsModel, Long> {
 
     private final List<NewsModel> newsList;
+    private final DataSource dataSource;
 
     public NewsRepositoryImpl() throws IOException {
-        DataSource dataSource = DataSource.getInstance();
+        dataSource = DataSource.getInstance();
         newsList = dataSource.getNewsStorage();
     }
 
@@ -37,8 +38,9 @@ public class NewsRepositoryImpl implements Repository<NewsModel, Long> {
     }
 
     @Override
-    public NewsModel update(Long id, NewsModel entity) {
-        NewsModel news = readById(id);
+    public NewsModel update(NewsModel entity) {
+
+        NewsModel news = readById(entity.getId());
         news.setTitle(entity.getTitle());
         news.setContent(entity.getContent());
         news.setAuthorId(entity.getAuthorId());
@@ -47,12 +49,12 @@ public class NewsRepositoryImpl implements Repository<NewsModel, Long> {
     }
 
     @Override
-    public boolean delete(Long id) {
+    public Boolean deleteById(Long id) {
         return newsList.removeIf(news -> news.getId() == id);
     }
 
     @Override
-    public boolean isExist(Long id) {
+    public Boolean isExist(Long id) {
         for (NewsModel news : newsList) {
             if (news.getId() == id) {
                 return true;

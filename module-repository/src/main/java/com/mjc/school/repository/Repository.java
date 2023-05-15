@@ -8,11 +8,11 @@ public interface Repository<T, K> {
 
     T readById(K id);
 
-    T update(K id, T t);
+    T update(T t);
 
     T create(T t);
 
-    boolean delete(K id);
+    Boolean deleteById(K id);
 
-    boolean isExist(K id);
+    Boolean isExist(K id);
 }

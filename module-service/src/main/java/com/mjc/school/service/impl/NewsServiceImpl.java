@@ -1,10 +1,10 @@
 package com.mjc.school.service.impl;
 
-import com.mjc.school.repository.model.AuthorModel;
-import com.mjc.school.repository.model.NewsModel;
+import com.mjc.school.repository.Repository;
 import com.mjc.school.repository.impl.AuthorRepositoryImpl;
 import com.mjc.school.repository.impl.NewsRepositoryImpl;
-import com.mjc.school.repository.Repository;
+import com.mjc.school.repository.model.AuthorModel;
+import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.Service;
 import com.mjc.school.service.dto.NewsRequestDto;
 import com.mjc.school.service.dto.NewsResponseDto;
@@ -58,22 +58,22 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
     }
 
     @Override
-    public NewsResponseDto update(Long id, NewsRequestDto newsRequestDto) {
+    public NewsResponseDto update(NewsRequestDto newsRequestDto) {
         validate(newsRequestDto);
 
-        NewsModel news = getNewsById(id);
+        NewsModel news = getNewsById(newsRequestDto.getId());
         news.setTitle(newsRequestDto.getTitle());
         news.setContent(newsRequestDto.getContent());
         news.setAuthorId(newsRequestDto.getAuthorId());
 
-        NewsModel savedNews = newsRepository.update(id, news);
+        NewsModel savedNews = newsRepository.update(news);
         return mapper.mapNewsToResponse(savedNews);
     }
 
     @Override
     public void delete(Long id) {
         try {
-            newsRepository.delete(id);
+            newsRepository.deleteById(id);
         } catch (Exception e) {
             throw new NotFoundException(String.format("News with ID %d not found.", id));
         }
@@ -82,7 +82,7 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
     private void validate(NewsRequestDto newsRequestDto) throws ValidationException {
         if (!authorRepository.isExist(newsRequestDto.getAuthorId()))
             throw new NotFoundException(String.format("Author with ID %d not found.", newsRequestDto.getAuthorId()));
-         newsValidator.validate(newsRequestDto);
+        newsValidator.validate(newsRequestDto);
     }
 
     private NewsModel getNewsById(Long id) {
