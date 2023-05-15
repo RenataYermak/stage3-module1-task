@@ -32,14 +32,14 @@ class NewsServiceTest {
 
     @Test
     void getAll() {
-        List<NewsResponseDto> freshNewsList = service.findAll();
+        List<NewsResponseDto> freshNewsList = service.readAll();
         assertNotEquals(freshNewsList.size(), 0);
 
         NewsRequestDto newsResponseDto1 = new NewsRequestDto(1L, "Some title news1.txt", "Some description news1.txt", 1L);
         NewsRequestDto newsResponseDto2 = new NewsRequestDto(1L, "Some title news2.txt", "Some description news1.txt", 2L);
         NewsResponseDto created1 = service.create(newsResponseDto1);
         NewsResponseDto created2 = service.create(newsResponseDto2);
-        List<NewsResponseDto> newsList = service.findAll();
+        List<NewsResponseDto> newsList = service.readAll();
 
         assertTrue(newsList.containsAll(List.of(created1, created2)));
     }
@@ -49,7 +49,7 @@ class NewsServiceTest {
         NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "Some title news.txt", "Some title news.txt", 1L);
         NewsResponseDto createdNews = service.create(newsResponseDto);
 
-        NewsResponseDto retrievedNews = service.findById(createdNews.getId());
+        NewsResponseDto retrievedNews = service.readById(createdNews.getId());
 
         assertEquals(createdNews, retrievedNews);
     }
@@ -71,17 +71,10 @@ class NewsServiceTest {
         NewsResponseDto createdNews = service.create(newsResponseDto);
 
         service.delete(createdNews.getId());
-        List<NewsResponseDto> newsList = service.findAll();
+        List<NewsResponseDto> newsList = service.readAll();
 
         assertFalse(newsList.contains(createdNews));
-        assertThrows(NotFoundException.class, () -> service.findById(createdNews.getId()));
-    }
-
-    @Test
-    public void testCreateNewsWithNonExistingAuthor() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "Some title news.txt", "Some title news.txt", 9999999999L);
-
-        assertThrows(NotFoundException.class, () -> service.create(newsResponseDto));
+        assertThrows(NotFoundException.class, () -> service.readById(createdNews.getId()));
     }
 
     @Test

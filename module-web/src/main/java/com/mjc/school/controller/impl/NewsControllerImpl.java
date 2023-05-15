@@ -16,13 +16,13 @@ public class NewsControllerImpl implements Controller<NewsResponseDto, NewsReque
     }
 
     @Override
-    public List<NewsResponseDto> findAll() {
-        return newsService.findAll();
+    public List<NewsResponseDto> readAll() {
+        return newsService.readAll();
     }
 
     @Override
-    public NewsResponseDto findById(Long newsId) {
-        return newsService.findById(newsId);
+    public NewsResponseDto readById(Long newsId) {
+        return newsService.readById(newsId);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class NewsControllerImpl implements Controller<NewsResponseDto, NewsReque
     }
 
     @Override
-    public void delete(Long newsId) {
-       newsService.delete(newsId);
+    public Boolean delete(Long newsId) {
+        return newsService.delete(newsId);
     }
 }

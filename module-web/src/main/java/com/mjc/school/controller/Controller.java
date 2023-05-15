@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface Controller<T, S, K> {
 
-    List<T> findAll();
+    List<T> readAll();
 
-    T findById(K id);
+    T readById(K id);
 
     T create(S t);
 
     T update(S t);
 
-    void delete(K id);
+    Boolean delete(K id);
 }

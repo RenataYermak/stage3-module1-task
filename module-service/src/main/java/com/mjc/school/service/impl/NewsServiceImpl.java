@@ -1,9 +1,7 @@
 package com.mjc.school.service.impl;
 
 import com.mjc.school.repository.Repository;
-import com.mjc.school.repository.impl.AuthorRepositoryImpl;
 import com.mjc.school.repository.impl.NewsRepositoryImpl;
-import com.mjc.school.repository.model.AuthorModel;
 import com.mjc.school.repository.model.NewsModel;
 import com.mjc.school.service.Service;
 import com.mjc.school.service.dto.NewsRequestDto;
@@ -22,14 +20,12 @@ import java.util.NoSuchElementException;
 public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto, Long> {
 
     private final Repository<NewsModel, Long> newsRepository;
-    private final Repository<AuthorModel, Long> authorRepository;
     private final Validator<NewsRequestDto> newsValidator;
     private final NewsMapper mapper = NewsMapper.INSTANCE;
 
     {
         try {
             newsRepository = new NewsRepositoryImpl();
-            authorRepository = new AuthorRepositoryImpl();
             newsValidator = new NewsValidatorImpl();
         } catch (IOException e) {
             throw new InternalServerErrorException("Unable to initialize internal database. " +
@@ -47,12 +43,12 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
     }
 
     @Override
-    public List<NewsResponseDto> findAll() {
+    public List<NewsResponseDto> readAll() {
         return mapper.mapNewsToResponseDtoList(newsRepository.readAll());
     }
 
     @Override
-    public NewsResponseDto findById(Long id) {
+    public NewsResponseDto readById(Long id) {
         NewsModel news = getNewsById(id);
         return mapper.mapNewsToResponse(news);
     }
@@ -71,17 +67,15 @@ public class NewsServiceImpl implements Service<NewsResponseDto, NewsRequestDto,
     }
 
     @Override
-    public void delete(Long id) {
+    public Boolean delete(Long id) {
         try {
-            newsRepository.deleteById(id);
+           return newsRepository.deleteById(id);
         } catch (Exception e) {
             throw new NotFoundException(String.format("News with ID %d not found.", id));
         }
     }
 
     private void validate(NewsRequestDto newsRequestDto) throws ValidationException {
-        if (!authorRepository.isExist(newsRequestDto.getAuthorId()))
-            throw new NotFoundException(String.format("Author with ID %d not found.", newsRequestDto.getAuthorId()));
         newsValidator.validate(newsRequestDto);
     }
 
