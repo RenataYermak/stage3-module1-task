@@ -8,28 +8,34 @@ import com.mjc.school.service.impl.NewsServiceImpl;
 import java.util.List;
 
 public class NewsControllerImpl implements Controller<NewsResponseDto, NewsRequestDto, Long> {
+
     private final NewsServiceImpl newsService;
 
     public NewsControllerImpl(NewsServiceImpl newsService) {
         this.newsService = newsService;
     }
 
+    @Override
     public List<NewsResponseDto> findAll() {
         return newsService.findAll();
     }
 
+    @Override
     public NewsResponseDto findById(Long newsId) {
         return newsService.findById(newsId);
     }
 
+    @Override
     public NewsResponseDto create(NewsRequestDto newsRequestDto) {
         return newsService.create(newsRequestDto);
     }
 
-    public NewsResponseDto update(Long id, NewsRequestDto newsRequestDto) {
-        return newsService.update(id,newsRequestDto);
+    @Override
+    public NewsResponseDto update(NewsRequestDto newsRequestDto) {
+        return newsService.update(newsRequestDto);
     }
 
+    @Override
     public void delete(Long newsId) {
        newsService.delete(newsId);
     }

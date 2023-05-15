@@ -10,7 +10,7 @@ public interface Service<T, S, K> {
 
     T create(S t);
 
-    T update( S t);
+    T update(S t);
 
     void delete(K id);
 }

@@ -65,5 +65,4 @@ public class DataSource {
             newsStorage.add(news);
         }
     }
-
 }
