@@ -15,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NewsServiceTest {
-    
+
     private final NewsServiceImpl service = new NewsServiceImpl();
-    
+
     @Test
     void create() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("Test news.txt", "This is a test news.txt", 1L);
-        
+        NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "Test news.txt", "This is a test news.txt", 1L);
+
         NewsResponseDto createdNews = service.create(newsResponseDto);
-        
+
         assertNotEquals(createdNews.getId(), 0L);
         assertEquals(newsResponseDto.getTitle(), createdNews.getTitle());
         assertEquals(newsResponseDto.getContent(), createdNews.getContent());
@@ -35,8 +35,8 @@ class NewsServiceTest {
         List<NewsResponseDto> freshNewsList = service.findAll();
         assertNotEquals(freshNewsList.size(), 0);
 
-        NewsRequestDto newsResponseDto1 = new NewsRequestDto("Some title news1.txt", "Some description news1.txt", 1L);
-        NewsRequestDto newsResponseDto2 = new NewsRequestDto("Some title news2.txt", "Some description news1.txt", 2L);
+        NewsRequestDto newsResponseDto1 = new NewsRequestDto(1L, "Some title news1.txt", "Some description news1.txt", 1L);
+        NewsRequestDto newsResponseDto2 = new NewsRequestDto(1L, "Some title news2.txt", "Some description news1.txt", 2L);
         NewsResponseDto created1 = service.create(newsResponseDto1);
         NewsResponseDto created2 = service.create(newsResponseDto2);
         List<NewsResponseDto> newsList = service.findAll();
@@ -46,7 +46,7 @@ class NewsServiceTest {
 
     @Test
     void getById() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("Some title news.txt", "Some title news.txt", 1L);
+        NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "Some title news.txt", "Some title news.txt", 1L);
         NewsResponseDto createdNews = service.create(newsResponseDto);
 
         NewsResponseDto retrievedNews = service.findById(createdNews.getId());
@@ -56,11 +56,9 @@ class NewsServiceTest {
 
     @Test
     void update() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("Some title news.txt", "Some title news.txt", 1L);
-        NewsResponseDto createdNews = service.create(newsResponseDto);
-        NewsRequestDto updatedNewsRequestDto = new NewsRequestDto("Updated test news.txt", "Updated test news.txt", 2L);
+        NewsRequestDto updatedNewsRequestDto = new NewsRequestDto(1L, "Updated test news.txt", "Updated test news.txt", 2L);
 
-        NewsResponseDto updatedNews = service.update(createdNews.getId(), updatedNewsRequestDto);
+        NewsResponseDto updatedNews = service.update(updatedNewsRequestDto);
 
         assertEquals(updatedNewsRequestDto.getTitle(), updatedNews.getTitle());
         assertEquals(updatedNewsRequestDto.getContent(), updatedNews.getContent());
@@ -69,7 +67,7 @@ class NewsServiceTest {
 
     @Test
     void delete() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("Some title news.txt", "Some title news.txt", 1L);
+        NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "Some title news.txt", "Some title news.txt", 1L);
         NewsResponseDto createdNews = service.create(newsResponseDto);
 
         service.delete(createdNews.getId());
@@ -81,22 +79,22 @@ class NewsServiceTest {
 
     @Test
     public void testCreateNewsWithNonExistingAuthor() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("Some title news.txt", "Some title news.txt", 9999999999L);
+        NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "Some title news.txt", "Some title news.txt", 9999999999L);
 
         assertThrows(NotFoundException.class, () -> service.create(newsResponseDto));
     }
 
     @Test
     public void testCreateNewsWithInvalidData() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("INL", "INL", 1L);
+        NewsRequestDto newsResponseDto = new NewsRequestDto(1L, "INL", "INL", 1L);
 
         assertThrows(ValidationException.class, () -> service.create(newsResponseDto));
     }
 
     @Test
     public void testUpdateNonExistingNews() {
-        NewsRequestDto newsResponseDto = new NewsRequestDto("Some title news.txt", "Some title news.txt", 1L);
+        NewsRequestDto newsResponseDto = new NewsRequestDto(100000000L, "Some title news.txt", "Some title news.txt", 100000000L);
 
-        assertThrows(NotFoundException.class, () -> service.update(999L, newsResponseDto));
+        assertThrows(NotFoundException.class, () -> service.update(newsResponseDto));
     }
 }
